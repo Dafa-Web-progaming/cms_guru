@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Login CMS Guru</title>
+</head>
+<body>
+
+<h2>Login CMS Guru</h2>
+
+<form id="loginForm">
+  <input type="text" id="username" placeholder="Username" required><br><br>
+  <input type="password" id="password" placeholder="Password" required><br><br>
+  <button type="submit">Login</button>
+</form>
+
+<p id="msg" style="color:red;"></p>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  let formData = new FormData();
+  formData.append("username", username.value);
+  formData.append("password", password.value);
+
+  fetch("http://localhost/guru/auth/login_proses.php", {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data.status === "success"){
+      window.location.href = "http://localhost/guru/admin/dashboard.php";
+    } else {
+      document.getElementById("msg").innerText = data.message;
+    }
+  });
+});
+</script>
+
+</body>
+</html>
